@@ -73,3 +73,29 @@ namespace MyTools {
 
 在实际开发中，C++ 标准库本身就自带了一个大名鼎鼎的 std::swap（位于 <utility> 头文件中）。
 如果你的代码里写了 using namespace std;，那么直接写 swap(a, b) 可能会让编译器陷入纠结（不知道该用标准库的还是用你自己写的全局 swap），从而抛出**“命名模糊（ambiguous）”**的编译错误。而显式地加上 ::swap(a, b) 就能明确指定“我要用我自己在全局域定义的这一个”。
+
+5. what does it mean ? `initial value of reference to non-const must be an lvalueC/C++(461)`
+这个编译错误 “initial value of reference to non-const must be an lvalue”（非常量引用的初始值必须是一个左值）是 C++ 中关于内存安全的一个经典报错。
+简单来说，它的意思是：你试图用一个“临时变出来、马上就会消失的东西”（右值），去初始化一个“可以被修改的别名”（非常量引用）。C++ 编译器为了防止你犯错，直接拒绝了这种行为。
+
+
+1. 核心概念：什么是左值（lvalue）和右值（rvalue）？
+
+• 左值（lvalue）：有明确内存地址、有名字、能持续存在的变量。比如你定义的 int x = 10;，这个 x 就是左值（你可以对它取地址 &x）。
+• 右值（rvalue）：临时的数据、纯字面量或表达式的中间结果，没有名字，用完即毁。比如数字字面量 10，或者表达式 x + 5 的结果。
+
+2. 为什么会报错？（编译器的保护机制）
+
+在 C++ 中，非常量引用（T&） 的本质是给一个已有的、长久存在的变量起一个外号，并且你可以通过这个外号去修改它。
+如果编译器允许你写 int& ref = 10;，就会发生荒谬的事情：
+1. 10 是个临时数字，它在内存里可能只是一个寄存器里的值，没有固定的家。
+2. 如果你给 10 起了个别名 ref。
+3. 接着你写 ref = 20;（因为它是非常量引用，允许修改），这意味着你试图把数字 10 改成 20。这在逻辑上和物理内存上都是不成立且极度危险的。
+```
+bool &operator==(const Student &other) const {
+    bool result = (this->age == other.age);
+    return result; // 🚨 致命错误：返回了局部变量的引用！函数结束时 result 销毁，外部拿到的是一个悬空引用（Dangling Reference），会导致程序崩溃。
+}
+```
+6 . how to overload operatorr for struct?
+the s

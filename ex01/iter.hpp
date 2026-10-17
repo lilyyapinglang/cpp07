@@ -2,6 +2,7 @@
 #ifndef ITER_HPP
 # define ITER_HPP
 
+# include <cstddef>
 /*
 Implement a function template iter that takes 3 parameters and returns nothing.
 -The first parameter is the address of an array.
@@ -12,7 +13,12 @@ Implement a function template iter that takes 3 parameters and returns nothing.
 -The function passed as the third parameter may take its argument by const reference
 or non-const reference, depending on the context.
 */
-template <typename T> void iter(T arr_addr, const len_arr, (void *)fn)
+
+template <typename T> void toFloat(T element)
+{
+}
+template <typename T> void iter(T *arr_addr, const std::size_t len_arr,
+	void (*fn)(T))
 {
 }
 #endif

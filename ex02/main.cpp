@@ -13,7 +13,7 @@ int	main(void)
 {
 	Array a = Array<int>();
 	Array b = Array<int>(10);
-    b[9] =1;
+	b[9] = 1;
 	Array c = Array<double>(10);
 	Array c = Array<float>(10);
 	Array c = Array<bool>(10);
