@@ -1,6 +1,19 @@
 #include "whatever.hpp"
 #include <iostream>
 
+struct	Data
+{
+	int	num;
+};
+
+class Student
+{
+  private:
+	std::string name;
+	int age;
+
+  public:
+};
 int	main(void)
 {
 	int			a;
