@@ -14,11 +14,34 @@ Implement a function template iter that takes 3 parameters and returns nothing.
 or non-const reference, depending on the context.
 */
 
-template <typename T> void toFloat(T element)
+template <typename T, typename F> void iter(T *arr_addr,
+	const std::size_t len_arr, F func_ptr)
 {
+	size_t	i;
+
+	if (!arr_addr || !func_ptr)
+		return ;
+	i = 0;
+	while (i < len_arr)
+	{
+		func_ptr(arr_addr[i]);
+		i++;
+	}
 }
-template <typename T> void iter(T *arr_addr, const std::size_t len_arr,
-	void (*fn)(T))
+
+template <typename T, typename F> void iter(const T *arr_addr,
+	const std::size_t len_arr, F func_ptr)
 {
+	size_t	i;
+
+	if (!arr_addr || !func_ptr)
+		return ;
+	i = 0;
+	while (i < len_arr)
+	{
+		func_ptr(arr_addr[i]);
+		i++;
+	}
 }
+
 #endif
